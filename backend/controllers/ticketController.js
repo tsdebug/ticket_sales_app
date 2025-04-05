@@ -1,7 +1,7 @@
-const getConnection = require("../db/db");
+const getConnection = require("../config/db");
 const oracledb = require("oracledb");
 
-// GET all tickets
+// Get all tickets
 exports.getAllTickets = async (req, res) => {
   try {
     const conn = await getConnection();
@@ -14,7 +14,7 @@ exports.getAllTickets = async (req, res) => {
   }
 };
 
-// POST a new ticket
+// Post a new ticket
 exports.createTicket = async (req, res) => {
   const { name, price } = req.body;
   if (!name || !price) {
@@ -34,7 +34,7 @@ exports.createTicket = async (req, res) => {
   }
 };
 
-// PUT: update ticket by ID
+// Put - update ticket by ID
 exports.updateTicket = async (req, res) => {
   const { id } = req.params;
   const { name, price } = req.body;
@@ -61,7 +61,7 @@ exports.updateTicket = async (req, res) => {
   }
 };
 
-// DELETE: delete ticket by ID
+// Delete ticket by ID
 exports.deleteTicket = async (req, res) => {
   const { id } = req.params;
 
