@@ -1,5 +1,5 @@
 const { generateToken } = require("../utils/jwt");
-const getConnection = require("../db/db");
+const getConnection = require("../config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
