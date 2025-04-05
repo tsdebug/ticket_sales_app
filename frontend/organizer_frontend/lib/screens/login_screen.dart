@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const OrganizerApp());
@@ -31,119 +29,83 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
-  String message = '';
+  Future<void> login() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text;
 
-  void login() async {
-  String email = _emailController.text.trim();
-  String password = _passwordController.text;
+    if (email.isNotEmpty && password.isNotEmpty) {
+      setState(() {
+        _isLoading = true;
+      });
 
-  if (email.isEmpty || password.isEmpty) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text("Error"),
-        content: Text("Please fill in all fields."),
-        actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
-      ),
-    );
-    return;
-  }
+      await Future.delayed(const Duration(seconds: 1)); // simulate network delay
 
-  //API URL
-  final url = Uri.parse('http://localhost:3000/api/login'); 
+      setState(() {
+        _isLoading = false;
+      });
 
-  //Send POST request
-  try {
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'email': email,
-        'password': password,
-      }),
-    );
-
-    //Check response
-    if (response.statusCode == 200) {
-      //Login success
-      final responseData = jsonDecode(response.body);
-      debugPrint("Login successful: $responseData");
-
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text("Success"),
-          content: Text("Login successful!"),
-          actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
-        ),
-      );
-
-      // You can now navigate to another screen or store token
+      // Fake login check
+      if (email == "admin@example.com" && password == "123456") {
+        if (!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const DashboardScreen()),
+        );
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Invalid credentials')),
+        );
+      }
     } else {
-      //Login failed
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text("Failed"),
-          content: Text("Login failed: ${response.body}"),
-          actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
-        ),
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all fields')),
       );
     }
-  } catch (e) {
-    if (!mounted) return;
-    //Something went wrong (like no internet)
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text("Error"),
-        content: Text("Something went wrong: $e"),
-        actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
-      ),
-    );
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-              ),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
             const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: login,
-              child: const Text('Login'),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              message,
-              style: const TextStyle(color: Colors.red),
-            ),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: login,
+                    child: const Text('Login'),
+                  ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Dashboard')),
+      body: const Center(child: Text('Welcome to the Dashboard!')),
     );
   }
 }
