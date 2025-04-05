@@ -27,8 +27,7 @@ exports.signup = async (req, res) => {
   }
 };
 
-// Login
-// Example login function
+// Login function - Example
 exports.login = async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -47,7 +46,7 @@ exports.login = async (req, res) => {
 
         const user = result.rows[0];
 
-        // ✅ Add this: Generate JWT token
+        // Adding this to Generate JWT token
         const token = generateToken({ id: user.ID, username: user.USERNAME });
 
         return res.json({ message: "Login successful", token });
