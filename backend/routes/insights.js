@@ -1,14 +1,16 @@
-const express = require('express');
+// routes/insights.js
+const express = require("express");
 const router = express.Router();
-const insightsController = require('../controllers/insightsController');
 
-// Route: GET /api/insights/revenue
-router.get('/revenue', insightsController.getRevenueInsights);
+const {
+  getRevenueInsights,
+  getAudienceInsights,
+  getHeatmapStats,
+} = require("../controllers/insightsController");
 
-// Route: GET /api/insights/audience
-router.get('/audience', insightsController.getAudienceInsights);
-
-// Route: GET /api/insights/heatmap
-router.get('/heatmap', insightsController.getHeatmapData);
+// These must all be FUNCTIONS
+router.get("/revenue", getRevenueInsights);
+router.get("/audience", getAudienceInsights);
+router.get("/heatmap", getHeatmapStats);
 
 module.exports = router;
