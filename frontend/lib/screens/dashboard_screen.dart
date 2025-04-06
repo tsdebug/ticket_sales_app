@@ -90,7 +90,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _addEvent(context),
-        label: Text("Add Event", style: TextStyle(color: Colors.white),),
+        label: Text("Add Event", style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),),
         icon: Icon(Icons.add),
         backgroundColor: const Color.fromARGB(255, 134, 187, 240),
       ),
