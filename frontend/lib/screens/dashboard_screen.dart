@@ -56,7 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: Text('Event Dashboard'),
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(255, 169, 206, 237),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -90,9 +90,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _addEvent(context),
-        label: Text("Add Event"),
+        label: Text("Add Event", style: TextStyle(color: Colors.white),),
         icon: Icon(Icons.add),
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(255, 134, 187, 240),
       ),
     );
   }

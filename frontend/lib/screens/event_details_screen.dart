@@ -8,6 +8,7 @@ class EventDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('Event Details')),
+      backgroundColor: Colors.lightBlue[50], // Change background color here
       body: ListView.builder(
         itemCount: events.length,
         itemBuilder: (context, index) {
@@ -30,4 +31,4 @@ class EventDetailsScreen extends StatelessWidget {
       ),
     );
   }
-}     
+}

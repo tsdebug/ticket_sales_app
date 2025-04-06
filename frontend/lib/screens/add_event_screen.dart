@@ -52,6 +52,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 validator: (value) => value!.isEmpty ? 'Enter event name' : null,
                 onChanged: (val) => setState(() => eventName = val),
               ),
+              
               SizedBox(height: 10),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Location'),
@@ -97,4 +98,4 @@ class _AddEventScreenState extends State<AddEventScreen> {
       ),
     );
   }
-}                    
+}
